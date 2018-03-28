@@ -38,7 +38,8 @@
     </form>
     <div class="message">
       <p>已有账号?
-        <a href="/login">点击登录</a>.</p>
+        <a href="/login">点击登录</a>
+      </p>
     </div>
   </div>
   <script src="/node_modules/jquery/dist/jquery.js"></script>
@@ -52,7 +53,7 @@
     //   表单验证
     //   发起ajax 异步请求
     //   根据服务器响应结果做交互处理
-    $('#signup_form').on('submit', handleSubmit)
+    $('#signup_form').on('submit', handleSubmit);
 
     function handleSubmit(e) {
       e.preventDefault();
@@ -66,7 +67,8 @@
           console.log(data);
           switch (data.code) {
             case 200:
-              window.location.href = '/';
+              // 注册成功，跳转到登录页面
+              window.location.href = '/signin';
               break;
             case 1:
               window.alert('邮箱已存在，请更换重试');

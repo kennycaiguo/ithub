@@ -1,7 +1,6 @@
 const moment = require('moment');
-
 const connection = require('./db-helper.js');
-const User = require('../mode/user');
+const User = require('../models/user');
 const md5 = require('md5');
 
 exports.showSignin = (req, res) => {
@@ -46,6 +45,7 @@ exports.signin = (req, res) => {
     // 代码执行到这里，表示以上验证通过，可以登录了
 
     // TODO: 保持登录状态
+    req.session.user = user;
 
     res.send({
       code: 200,
@@ -88,7 +88,7 @@ exports.signup = (req, res) => {
       // 校验昵称是否存在
       User.getByNickname(
         body.nickname,
-        (err, nickname) => {
+        (err, user) => {
           if (err) {
             return res.send({
               code: 500,
@@ -114,7 +114,7 @@ exports.signup = (req, res) => {
           body.createdAt = moment().format('YYYY-MM-DD HH:mm:ss')
           body.password = md5(body.password);
 
-          User.create(sqlStr, body, (err, results) => {
+          User.create( body, (err, results) => {
             if (err) {
               // 服务器异常，通知客户端
               return res.send({
@@ -142,5 +142,9 @@ exports.signup = (req, res) => {
 }
 
 exports.signout = (req, res) => {
-  res.send('signout')
+  // 1.清除登录状态
+  delete req.session.user;
+
+  // 2.跳转到登录页
+  res.redirect('/signin');
 }

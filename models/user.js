@@ -3,7 +3,7 @@
 const db = require('../controller/db-helper')
 
 exports.findAll = callback => {
-  const sqlStr = 'SELECT * FRPM `USERS`';
+  const sqlStr = 'SELECT * FROM `users`';
   db.query(sqlStr, (err, results) => {
     if (err) {
       return callback(err);
@@ -13,7 +13,7 @@ exports.findAll = callback => {
 }
 
 exports.getByEmail = (email, callback) => {
-  const sqlStr = 'SELECT * FRPM `USERS` WHERE `email`=?';
+  const sqlStr = 'SELECT * FROM `users` WHERE `email`=?';
   db.query(
     sqlStr, [email],
     (err, results) => {
@@ -25,7 +25,7 @@ exports.getByEmail = (email, callback) => {
 }
 
 exports.getByNickname = (nickname, callback) => {
-  const sqlStr = 'SELECT * FRPM `USERS` WHERE `nickname`=?';
+  const sqlStr = 'SELECT * FROM `users` WHERE `nickname`=?';
   db.query(
     sqlStr, [nickname],
     (err, results) => {
